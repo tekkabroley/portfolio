@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create *)",
+      "Bash(npx astro *)",
+      "Bash(mv second-shepherd/* .)",
+      "Bash(mv second-shepherd/.* .)",
+      "Bash(rmdir second-shepherd *)"
+    ]
+  }
+}
