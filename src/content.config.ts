@@ -16,10 +16,12 @@ const projects = defineCollection({
 const gallery = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/gallery' }),
   schema: z.object({
-    title: z.string(),
-    category: z.string(),
+    title: z.string().optional(),
+    category: z.string().optional(),
     image: z.string(),
-    date: z.date(),
+    date: z.union([z.date(), z.string()]),
+    location: z.string().optional(),
+    collection: z.string().optional(),
   }),
 });
 

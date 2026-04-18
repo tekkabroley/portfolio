@@ -6,7 +6,17 @@
       "Bash(mv second-shepherd/* .)",
       "Bash(mv second-shepherd/.* .)",
       "Bash(rmdir second-shepherd *)",
-      "Bash(npm install)"
+      "Bash(npm install)",
+      "Bash(ls src/content/gallery/*.md)",
+      "Bash(exiftool -ver)",
+      "Bash(grep \"image:\" src/content/gallery/*.md | head -n 5)",
+      "Bash(npm run dev)",
+      "Bash(node tests/smoke.test.js)",
+      "Bash(node tests/smoke.test.cjs)",
+      "Bash(curl -s http://localhost:4321/)",
+      "Bash(node -e 'const http = require\\(\"http\"\\); http.get\\(\"http://localhost:4321/\", \\(res\\) => { let data = \"\"; res.on\\(\"data\", \\(chunk\\) => data += chunk\\); res.on\\(\"end\", \\(\\) => { console.log\\(data\\); process.exit\\(0\\); }\\); }\\).on\\(\"error\", \\(err\\) => { console.error\\(err\\); process.exit\\(1\\); }\\);')",
+      "Bash(pkill -f \"astro dev\" || true && npm run dev)",
+      "Bash(pkill -f \"astro dev\" || true)"
     ]
   }
 }
