@@ -2,22 +2,84 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Photography & Dev Portfolio">
-  <section class="px-6 py-20 max-w-7xl mx-auto">
-    <h1 class="text-6xl font-bold tracking-tighter mb-4">ALEX B.</h1>
-    <p class="text-xl text-gray-400 mb-12 max-w-2xl">
-      Software Engineer & Photographer. Exploring the intersection of high-performance code and high-contrast imagery.
-    </p>
+<Layout title="Photography Portfolio">
+  <div class="flex flex-col gap-0">
+    <!-- Hero Section: Full-bleed impactful image -->
+    <section class="relative h-[90vh] w-full overflow-hidden bg-neutral-900">
+      <img
+        src="https://images.unsplash.com/photo-1449156003053-9a2e76d370b9?q=80&w=2070&auto=format&fit=crop"
+        alt="Hero urban shot"
+        class="h-full w-full object-cover opacity-80 transition-transform duration-700 hover:scale-105"
+      />
+      <div class="absolute inset-0 flex flex-col justify-end p-6 md:p-12 lg:p-20 bg-gradient-to-t from-black/60 to-transparent">
+        <h1 class="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-4">ALEX B.</h1>
+        <p class="text-lg md:text-2xl text-gray-200 max-w-xl font-light">
+          Capturing the stark contrast of urban environments and architectural forms.
+        </p>
+      </div>
+    </section>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="p-8 border border-white/10 bg-white/5 hover:bg-white/10 transition-colors group cursor-pointer">
-        <h2 class="text-3xl font-bold mb-2 group-hover:translate-x-2 transition-transform">Software</h2>
-        <p class="text-gray-400">High-performance applications and open source tools.</p>
+    <!-- Fluid Gallery Grid -->
+    <section class="p-4 md:p-8 lg:p-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[300px]">
+        <!-- Large featured image -->
+        <div class="md:col-span-2 md:row-span-2 relative group overflow-hidden bg-neutral-800">
+          <img
+            src="https://images.unsplash.com/photo-1470074206807-a6055a042fcf?q=80&w=2070&auto=format&fit=crop"
+            alt="Urban architecture"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span class="text-white text-sm font-medium tracking-widest uppercase">View Project</span>
+          </div>
+        </div>
+
+        <!-- Small square images -->
+        <div class="relative group overflow-hidden bg-neutral-800">
+          <img
+            src="https://images.unsplash.com/photo-1444723121867-7a241feca967?q=80&w=2070&auto=format&fit=crop"
+            alt="City detail"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span class="text-white text-sm font-medium tracking-widest uppercase">View Project</span>
+          </div>
+        </div>
+
+        <div class="relative group overflow-hidden bg-neutral-800">
+          <img
+            src="https://images.unsplash.com/photo-1486406146986-6230963a3184?q=80&w=2070&auto=format&fit=crop"
+            alt="Street view"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span class="text-white text-sm font-medium tracking-widest uppercase">View Project</span>
+          </div>
+        </div>
+
+        <!-- Bottom row images -->
+        <div class="md:col-span-1 relative group overflow-hidden bg-neutral-800">
+          <img
+            src="https://images.unsplash.com/photo-1514565131-f6265876671f?q=80&w=2070&auto=format&fit=crop"
+            alt="Modern architecture"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span class="text-white text-sm font-medium tracking-widest uppercase">View Project</span>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 relative group overflow-hidden bg-neutral-800">
+          <img
+            src="https://images.unsplash.com/photo-1477959858617-6749d3a5be58?q=80&w=2070&auto=format&fit=crop"
+            alt="Urban night"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span class="text-white text-sm font-medium tracking-widest uppercase">View Project</span>
+          </div>
+        </div>
       </div>
-      <div class="p-8 border border-white/10 bg-white/5 hover:bg-white/10 transition-colors group cursor-pointer">
-        <h2 class="text-3xl font-bold mb-2 group-hover:translate-x-2 transition-transform">Photography</h2>
-        <p class="text-gray-400">Capturing the stark contrast of urban environments.</p>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </Layout>

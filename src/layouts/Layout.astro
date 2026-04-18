@@ -7,9 +7,26 @@ import '../styles/global.css';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{astro.props.title || 'Portfolio'}</title>
+    <title>{Astro.props.title || 'Portfolio'}</title>
   </head>
   <body class="bg-black text-white selection:bg-white selection:text-black antialiased">
+    <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto">
+      <div class="flex gap-6 text-sm font-medium text-gray-400">
+        <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+        <a href="/about" class="hover:text-white transition-colors">About</a>
+        <a href="/contact" class="hover:text-white transition-colors">Contact</a>
+      </div>
+      <a href="https://instagram.com/your-handle" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.01 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.8" x2="17.8" y1="2" y2="4"></line>
+          <line x1="16.2" x2="16.2" y1="2" y2="4"></line>
+          <line x1="7" x2="7" y1="2" y2="4"></line>
+          <line x1="5.4" x2="5.4" y1="2" y2="4"></line>
+        </svg>
+      </a>
+    </nav>
     <main class="min-h-screen">
       <slot />
     </main>
