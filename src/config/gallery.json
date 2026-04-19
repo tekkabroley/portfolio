@@ -1,0 +1,56 @@
+{
+  "slots": [
+    {
+      "id": "hero",
+      "targetRatio": 1.7777777777777777,
+      "width": 1920,
+      "height": 1080,
+      "layout": "hero"
+    },
+    {
+      "id": "featured",
+      "targetRatio": 0.8,
+      "width": 1200,
+      "height": 1500,
+      "layout": "grid",
+      "gridClass": "md:col-span-2 md:row-span-2",
+      "aspectClass": "aspect-[4/5]"
+    },
+    {
+      "id": "square1",
+      "targetRatio": 1.5,
+      "width": 1200,
+      "height": 800,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]"
+    },
+    {
+      "id": "square2",
+      "targetRatio": 1.5,
+      "width": 1200,
+      "height": 800,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]"
+    },
+    {
+      "id": "bottom1",
+      "targetRatio": 0.8,
+      "width": 1200,
+      "height": 1500,
+      "layout": "grid",
+      "gridClass": "md:col-span-1",
+      "aspectClass": "aspect-[4/5]"
+    },
+    {
+      "id": "bottom2",
+      "targetRatio": 1.5,
+      "width": 1200,
+      "height": 800,
+      "layout": "grid",
+      "gridClass": "md:col-span-2",
+      "aspectClass": "aspect-[3/2]"
+    }
+  ]
+}

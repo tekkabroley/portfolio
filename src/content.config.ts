@@ -22,6 +22,8 @@ const gallery = defineCollection({
     date: z.union([z.date(), z.string()]),
     location: z.string().optional(),
     collection: z.string().optional(),
+    width: z.number().optional(),
+    height: z.number().optional(),
   }),
 });
 

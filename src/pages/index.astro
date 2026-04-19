@@ -2,26 +2,75 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
+import galleryConfig from '../config/gallery.json';
 
-const galleryEntries = await getCollection('gallery');
+const allGallery = await getCollection('gallery');
+
+const SLOTS = galleryConfig.slots;
+
+// Smart Slotting Logic
+function matchPhotosToSlots(entries) {
+  const available = entries.map(entry => ({
+    ...entry,
+    ratio: entry.data.width && entry.data.height
+      ? entry.data.width / entry.data.height
+      : 1 // Default to square if dimensions missing
+  }));
+
+  const assignments = {};
+  const usedIds = new Set();
+
+  // Force DSC00037 as the hero
+  const heroPhoto = available.find(p => p.slug === 'DSC00037');
+  if (heroPhoto) {
+    assignments['hero'] = heroPhoto;
+    usedIds.add(heroPhoto.id);
+  }
+
+  SLOTS.forEach(slot => {
+    if (slot.id === 'hero' && assignments['hero']) return;
+
+    let bestMatch = null;
+    let minDiff = Infinity;
+
+    available.forEach(photo => {
+      if (usedIds.has(photo.id)) return;
+
+      const diff = Math.abs(photo.ratio - slot.targetRatio);
+      if (diff < minDiff) {
+        minDiff = diff;
+        bestMatch = photo;
+      }
+    });
+
+    if (bestMatch) {
+      assignments[slot.id] = bestMatch;
+      usedIds.add(bestMatch.id);
+    }
+  });
+
+  return assignments;
+}
+
+const slotted = matchPhotosToSlots(allGallery);
 ---
 
 <Layout title="Photography Portfolio">
   <div class="flex flex-col gap-0">
-    <!-- Hero Section: Full-bleed impactful image -->
-    <section class="relative h-[90vh] w-full overflow-hidden bg-neutral-900">
-      {galleryEntries[0] ? (
+    <!-- Hero Section -->
+    <section class="relative w-full overflow-hidden bg-neutral-900 aspect-video">
+      {slotted.hero ? (
         <Image
-          src={galleryEntries[0].data.image}
-          alt={galleryEntries[0].data.title || 'Photography work by Alex B.'}
-          class="h-full w-full object-cover opacity-80 transition-transform duration-700 hover:scale-105"
-          width={1920}
-          height={1080}
+          src={slotted.hero.data.image}
+          alt={slotted.hero.data.title || 'Photography work by Alex B.'}
+          class="h-full w-full object-cover transition-transform duration-700"
+          width={SLOTS.find(s => s.id === 'hero')?.width}
+          height={SLOTS.find(s => s.id === 'hero')?.height}
         />
       ) : (
         <div class="h-full w-full bg-neutral-800" />
       )}
-      <div class="absolute inset-0 flex flex-col justify-end p-6 md:p-12 lg:p-20 bg-gradient-to-t from-black/60 to-transparent">
+      <div class="absolute inset-0 flex flex-col justify-end p-6 md:p-12 lg:p-20">
         <h1 class="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-4">ALEX B.</h1>
         <p class="text-lg md:text-2xl text-gray-200 max-w-xl font-light">
           Capturing the stark contrast of urban environments and architectural forms.
@@ -31,76 +80,91 @@ const galleryEntries = await getCollection('gallery');
 
     <!-- Fluid Gallery Grid -->
     <section class="p-4 md:p-8 lg:p-12">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[300px]">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-        {/* Large featured image - use 2nd image */}
-        <div class="md:col-span-2 md:row-span-2 relative group overflow-hidden bg-neutral-800">
-          {galleryEntries[1] && (
+        {/* Large featured image */}
+        <div class="md:col-span-2 md:row-span-2 relative group overflow-hidden bg-neutral-800 aspect-[4/5]">
+          {slotted.featured && (
             <>
               <Image
-                src={galleryEntries[1].data.image}
-                alt={galleryEntries[1].data.title || 'Photography work by Alex B.'}
-                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                width={1200}
-                height={1600}
+                src={slotted.featured.data.image}
+                alt={slotted.featured.data.title || 'Photography work by Alex B.'}
+                class="h-full w-full object-cover transition-transform duration-500"
+                width={SLOTS[1].width}
+                height={SLOTS[1].height}
               />
               <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span class="text-white text-sm font-medium tracking-widest uppercase">{galleryEntries[1].data.title}</span>
+                <span class="text-white text-sm font-medium tracking-widest uppercase">{slotted.featured.data.title}</span>
               </div>
             </>
           )}
         </div>
 
-        {/* Small images - use 3rd and 4th */}
-        {[2, 3].map((index) => (
-          <div class="relative group overflow-hidden bg-neutral-800">
-            {galleryEntries[index] && (
-              <>
-                <Image
-                  src={galleryEntries[index].data.image}
-                  alt={galleryEntries[index].data.title || 'Photography work by Alex B.'}
-                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  width={800}
-                  height={800}
-                />
-                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <span class="text-white text-sm font-medium tracking-widest uppercase">{galleryEntries[index].data.title}</span>
-                </div>
-              </>
-            )}
-          </div>
-        ))}
-
-        {/* Bottom row images - use 5th and 6th */}
-        <div class="md:col-span-1 relative group overflow-hidden bg-neutral-800">
-          {galleryEntries[4] && (
+        {/* Small images */}
+        <div class="relative group overflow-hidden bg-neutral-800 aspect-[3/2]">
+          {slotted.square1 && (
             <>
               <Image
-                src={galleryEntries[4].data.image}
-                alt={galleryEntries[4].data.title || 'Photography work by Alex B.'}
-                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                width={800}
-                height={800}
+                src={slotted.square1.data.image}
+                alt={slotted.square1.data.title || 'Photography work by Alex B.'}
+                class="h-full w-full object-cover transition-transform duration-500"
+                width={SLOTS[2].width}
+                height={SLOTS[2].height}
               />
               <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span class="text-white text-sm font-medium tracking-widest uppercase">{galleryEntries[4].data.title}</span>
+                <span class="text-white text-sm font-medium tracking-widest uppercase">{slotted.square1.data.title}</span>
               </div>
             </>
           )}
         </div>
 
-        <div class="md:col-span-2 relative group overflow-hidden bg-neutral-800">
-          {galleryEntries[5] && (
+        <div class="relative group overflow-hidden bg-neutral-800 aspect-[3/2]">
+          {slotted.square2 && (
             <>
               <Image
-                src={galleryEntries[5].data.image}
-                alt={galleryEntries[5].data.title || 'Photography work by Alex B.'}
-                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                width={1200}
-                height={800}
+                src={slotted.square2.data.image}
+                alt={slotted.square2.data.title || 'Photography work by Alex B.'}
+                class="h-full w-full object-cover transition-transform duration-500"
+                width={SLOTS[3].width}
+                height={SLOTS[3].height}
               />
               <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span class="text-white text-sm font-medium tracking-widest uppercase">{galleryEntries[5].data.title}</span>
+                <span class="text-white text-sm font-medium tracking-widest uppercase">{slotted.square2.data.title}</span>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Bottom row images */}
+        <div class="md:col-span-1 relative group overflow-hidden bg-neutral-800 aspect-[4/5]">
+          {slotted.bottom1 && (
+            <>
+              <Image
+                src={slotted.bottom1.data.image}
+                alt={slotted.bottom1.data.title || 'Photography work by Alex B.'}
+                class="h-full w-full object-cover transition-transform duration-500"
+                width={SLOTS[4].width}
+                height={SLOTS[4].height}
+              />
+              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span class="text-white text-sm font-medium tracking-widest uppercase">{slotted.bottom1.data.title}</span>
+              </div>
+            </>
+          )}
+        </div>
+
+        <div class="md:col-span-2 relative group overflow-hidden bg-neutral-800 aspect-[3/2]">
+          {slotted.bottom2 && (
+            <>
+              <Image
+                src={slotted.bottom2.data.image}
+                alt={slotted.bottom2.data.title || 'Photography work by Alex B.'}
+                class="h-full w-full object-cover transition-transform duration-500"
+                width={SLOTS[5].width}
+                height={SLOTS[5].height}
+              />
+              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span class="text-white text-sm font-medium tracking-widest uppercase">{slotted.bottom2.data.title}</span>
               </div>
             </>
           )}
