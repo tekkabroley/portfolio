@@ -5,47 +5,23 @@ import { Image } from 'astro:assets';
 import galleryConfig from '../config/gallery.json';
 
 const allGallery = await getCollection('gallery');
+console.log('GALLERY ENTRIES:', JSON.stringify(allGallery, null, 2));
 
 const SLOTS = galleryConfig.slots;
 
-// Smart Slotting Logic
+// Simplified Slotting Logic: Only use explicit overrides from config
 function matchPhotosToSlots(entries) {
-  const available = entries.map(entry => ({
-    ...entry,
-    ratio: entry.data.width && entry.data.height
-      ? entry.data.width / entry.data.height
-      : 1 // Default to square if dimensions missing
-  }));
-
   const assignments = {};
-  const usedIds = new Set();
-
-  // Force DSC00037 as the hero
-  const heroPhoto = available.find(p => p.slug === 'DSC00037');
-  if (heroPhoto) {
-    assignments['hero'] = heroPhoto;
-    usedIds.add(heroPhoto.id);
-  }
 
   SLOTS.forEach(slot => {
-    if (slot.id === 'hero' && assignments['hero']) return;
-
-    let bestMatch = null;
-    let minDiff = Infinity;
-
-    available.forEach(photo => {
-      if (usedIds.has(photo.id)) return;
-
-      const diff = Math.abs(photo.ratio - slot.targetRatio);
-      if (diff < minDiff) {
-        minDiff = diff;
-        bestMatch = photo;
+    if (slot.imageSlug) {
+      const photo = entries.find(p =>
+        (p.id && p.id.toLowerCase() === slot.imageSlug.toLowerCase()) ||
+        (p.slug && p.slug.toLowerCase() === slot.imageSlug.toLowerCase())
+      );
+      if (photo) {
+        assignments[slot.id] = photo;
       }
-    });
-
-    if (bestMatch) {
-      assignments[slot.id] = bestMatch;
-      usedIds.add(bestMatch.id);
     }
   });
 
@@ -81,94 +57,27 @@ const slotted = matchPhotosToSlots(allGallery);
     <!-- Fluid Gallery Grid -->
     <section class="p-4 md:p-8 lg:p-12">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-        {/* Large featured image */}
-        <div class="md:col-span-2 md:row-span-2 relative group overflow-hidden bg-neutral-800 aspect-[4/5]">
-          {slotted.featured && (
-            <>
-              <Image
-                src={slotted.featured.data.image}
-                alt={slotted.featured.data.title || 'Photography work by Alex B.'}
-                class="h-full w-full object-cover transition-transform duration-500"
-                width={SLOTS[1].width}
-                height={SLOTS[1].height}
-              />
-              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span class="text-white text-sm font-medium tracking-widest uppercase">{slotted.featured.data.title}</span>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Small images */}
-        <div class="relative group overflow-hidden bg-neutral-800 aspect-[3/2]">
-          {slotted.square1 && (
-            <>
-              <Image
-                src={slotted.square1.data.image}
-                alt={slotted.square1.data.title || 'Photography work by Alex B.'}
-                class="h-full w-full object-cover transition-transform duration-500"
-                width={SLOTS[2].width}
-                height={SLOTS[2].height}
-              />
-              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span class="text-white text-sm font-medium tracking-widest uppercase">{slotted.square1.data.title}</span>
-              </div>
-            </>
-          )}
-        </div>
-
-        <div class="relative group overflow-hidden bg-neutral-800 aspect-[3/2]">
-          {slotted.square2 && (
-            <>
-              <Image
-                src={slotted.square2.data.image}
-                alt={slotted.square2.data.title || 'Photography work by Alex B.'}
-                class="h-full w-full object-cover transition-transform duration-500"
-                width={SLOTS[3].width}
-                height={SLOTS[3].height}
-              />
-              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span class="text-white text-sm font-medium tracking-widest uppercase">{slotted.square2.data.title}</span>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Bottom row images */}
-        <div class="md:col-span-1 relative group overflow-hidden bg-neutral-800 aspect-[4/5]">
-          {slotted.bottom1 && (
-            <>
-              <Image
-                src={slotted.bottom1.data.image}
-                alt={slotted.bottom1.data.title || 'Photography work by Alex B.'}
-                class="h-full w-full object-cover transition-transform duration-500"
-                width={SLOTS[4].width}
-                height={SLOTS[4].height}
-              />
-              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span class="text-white text-sm font-medium tracking-widest uppercase">{slotted.bottom1.data.title}</span>
-              </div>
-            </>
-          )}
-        </div>
-
-        <div class="md:col-span-2 relative group overflow-hidden bg-neutral-800 aspect-[3/2]">
-          {slotted.bottom2 && (
-            <>
-              <Image
-                src={slotted.bottom2.data.image}
-                alt={slotted.bottom2.data.title || 'Photography work by Alex B.'}
-                class="h-full w-full object-cover transition-transform duration-500"
-                width={SLOTS[5].width}
-                height={SLOTS[5].height}
-              />
-              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span class="text-white text-sm font-medium tracking-widest uppercase">{slotted.bottom2.data.title}</span>
-              </div>
-            </>
-          )}
-        </div>
+        {SLOTS.filter(s => s.layout === 'grid').map(slot => {
+          const photo = slotted[slot.id];
+          return (
+            <div class={`relative group overflow-hidden bg-neutral-800 ${slot.aspectClass} ${slot.gridClass}`}>
+              {photo && (
+                <>
+                  <Image
+                    src={photo.data.image}
+                    alt={photo.data.title || 'Photography work by Alex B.'}
+                    class="h-full w-full object-cover transition-transform duration-500"
+                    width={slot.width}
+                    height={slot.height}
+                  />
+                  <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-white text-sm font-medium tracking-widest uppercase">{photo.data.title}</span>
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   </div>

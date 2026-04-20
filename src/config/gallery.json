@@ -5,7 +5,8 @@
       "targetRatio": 1.7777777777777777,
       "width": 1920,
       "height": 1080,
-      "layout": "hero"
+      "layout": "hero",
+      "imageSlug": "DSC02966"
     },
     {
       "id": "featured",
@@ -14,7 +15,8 @@
       "height": 1500,
       "layout": "grid",
       "gridClass": "md:col-span-2 md:row-span-2",
-      "aspectClass": "aspect-[4/5]"
+      "aspectClass": "aspect-[4/5]",
+      "imageSlug": "DSC01462-Enhanced-NR"
     },
     {
       "id": "square1",
@@ -23,7 +25,8 @@
       "height": 800,
       "layout": "grid",
       "gridClass": "",
-      "aspectClass": "aspect-[3/2]"
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02627"
     },
     {
       "id": "square2",
@@ -32,7 +35,8 @@
       "height": 800,
       "layout": "grid",
       "gridClass": "",
-      "aspectClass": "aspect-[3/2]"
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02629"
     },
     {
       "id": "bottom1",
@@ -41,7 +45,8 @@
       "height": 1500,
       "layout": "grid",
       "gridClass": "md:col-span-1",
-      "aspectClass": "aspect-[4/5]"
+      "aspectClass": "aspect-[4/5]",
+      "imageSlug": "DSC06374"
     },
     {
       "id": "bottom2",
@@ -50,7 +55,8 @@
       "height": 800,
       "layout": "grid",
       "gridClass": "md:col-span-2",
-      "aspectClass": "aspect-[3/2]"
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC01630"
     }
   ]
 }

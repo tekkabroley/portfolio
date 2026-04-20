@@ -7,3 +7,9 @@
 body {
   margin: 0;
 }
+
+/*
+Safelist for dynamic gallery slots:
+aspect-[4/5] aspect-[3/2]
+md:col-span-1 md:col-span-2 md:row-span-2
+*/
