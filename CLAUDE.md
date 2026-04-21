@@ -16,6 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The repository contains a photography portfolio built with Astro 6.0 and Tailwind CSS.
 
 ### Root Project Structure
+- `src/assets/`: Contains images and other assets.
 - `src/pages/`: Defines the site's routing based on file names.
 - `src/layouts/`: Contains reusable page wrappers.
 - `src/components/`: Reusable UI components.

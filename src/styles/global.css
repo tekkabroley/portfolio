@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --font-baskerville: "Baskerville", serif;
+}
+
 :root {
   color-scheme: dark;
 }

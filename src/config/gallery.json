@@ -3,60 +3,62 @@
     {
       "id": "slot-1",
       "targetRatio": 1.5,
-      "width": 1200,
-      "height": 800,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC00037"
+    },
+    {
+      "id": "slot-2",
+      "targetRatio": 1.5,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02983"
+    },
+    {
+      "id": "slot-3",
+      "targetRatio": 1.5,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02650"
+    },
+    {
+      "id": "slot-4",
+      "targetRatio": 1.5,
+      "width": 1800,
+      "height": 1200,
       "layout": "grid",
       "gridClass": "",
       "aspectClass": "aspect-[3/2]",
       "imageSlug": "DSC02627"
     },
     {
-      "id": "slot-2",
-      "targetRatio": 1.5,
-      "width": 1200,
-      "height": 800,
-      "layout": "grid",
-      "gridClass": "",
-      "aspectClass": "aspect-[3/2]",
-      "imageSlug": "DSC02629"
-    },
-    {
-      "id": "slot-3",
-      "targetRatio": 1.5,
-      "width": 1200,
-      "height": 800,
-      "layout": "grid",
-      "gridClass": "",
-      "aspectClass": "aspect-[3/2]",
-      "imageSlug": "DSC06374"
-    },
-    {
-      "id": "slot-4",
-      "targetRatio": 1.5,
-      "width": 1200,
-      "height": 800,
-      "layout": "grid",
-      "gridClass": "",
-      "aspectClass": "aspect-[3/2]",
-      "imageSlug": "DSC01630"
-    },
-    {
       "id": "slot-5",
       "targetRatio": 1.5,
-      "width": 1200,
-      "height": 800,
+      "width": 1800,
+      "height": 1200,
       "layout": "grid",
       "gridClass": "",
-      "aspectClass": "aspect-[3/2]"
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC03384"
     },
     {
       "id": "slot-6",
       "targetRatio": 1.5,
-      "width": 1200,
-      "height": 800,
+      "width": 1800,
+      "height": 1200,
       "layout": "grid",
       "gridClass": "",
-      "aspectClass": "aspect-[3/2]"
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC08606"
     },
     {
       "id": "slot-7",
@@ -65,34 +67,58 @@
       "height": 800,
       "layout": "grid",
       "gridClass": "",
-      "aspectClass": "aspect-[3/2]"
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC06654"
     },
     {
       "id": "slot-8",
       "targetRatio": 1.5,
-      "width": 1200,
-      "height": 800,
+      "width": 1800,
+      "height": 1200,
       "layout": "grid",
       "gridClass": "",
-      "aspectClass": "aspect-[3/2]"
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02966"
     },
     {
       "id": "slot-9",
       "targetRatio": 1.5,
-      "width": 1200,
-      "height": 800,
+      "width": 1800,
+      "height": 1200,
       "layout": "grid",
       "gridClass": "",
-      "aspectClass": "aspect-[3/2]"
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC06109"
     },
     {
       "id": "slot-10",
       "targetRatio": 1.5,
-      "width": 1200,
-      "height": 800,
+      "width": 1800,
+      "height": 1200,
       "layout": "grid",
       "gridClass": "",
-      "aspectClass": "aspect-[3/2]"
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02282"
+    },
+    {
+      "id": "slot-11",
+      "targetRatio": 0.6666666666666666,
+      "width": 1200,
+      "height": 1800,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[2/3]",
+      "imageSlug": "DSC06374"
+    },
+    {
+      "id": "slot-12",
+      "targetRatio": 0.6666666666666666,
+      "width": 1200,
+      "height": 1800,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[2/3]",
+      "imageSlug": "DSC04787"
     }
   ]
 }
