@@ -1,11 +1,11 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
-import galleryConfig from '../config/gallery.json';
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import galleryConfig from "../config/gallery.json";
 
-const allGallery = await getCollection('gallery');
-console.log('GALLERY ENTRIES:', JSON.stringify(allGallery, null, 2));
+const allGallery = await getCollection("gallery");
+console.log("GALLERY ENTRIES:", JSON.stringify(allGallery, null, 2));
 
 const SLOTS = galleryConfig.slots;
 
@@ -13,11 +13,12 @@ const SLOTS = galleryConfig.slots;
 function matchPhotosToSlots(entries) {
   const assignments = {};
 
-  SLOTS.forEach(slot => {
+  SLOTS.forEach((slot) => {
     if (slot.imageSlug) {
-      const photo = entries.find(p =>
-        (p.id && p.id.toLowerCase() === slot.imageSlug.toLowerCase()) ||
-        (p.slug && p.slug.toLowerCase() === slot.imageSlug.toLowerCase())
+      const photo = entries.find(
+        (p) =>
+          (p.id && p.id.toLowerCase() === slot.imageSlug.toLowerCase()) ||
+          (p.slug && p.slug.toLowerCase() === slot.imageSlug.toLowerCase()),
       );
       if (photo) {
         assignments[slot.id] = photo;
@@ -33,52 +34,87 @@ const slotted = matchPhotosToSlots(allGallery);
 
 <Layout title="Photography Portfolio">
   <div class="flex flex-col gap-0">
-    <!-- Hero Section -->
-    <section class="relative w-full overflow-hidden bg-neutral-900 aspect-video">
-      {slotted.hero ? (
-        <Image
-          src={slotted.hero.data.image}
-          alt={slotted.hero.data.title || 'Photography work by Alex B.'}
-          class="h-full w-full object-cover transition-transform duration-700"
-          width={SLOTS.find(s => s.id === 'hero')?.width}
-          height={SLOTS.find(s => s.id === 'hero')?.height}
-        />
-      ) : (
-        <div class="h-full w-full bg-neutral-800" />
-      )}
-      <div class="absolute inset-0 flex flex-col justify-end p-6 md:p-12 lg:p-20">
-        <h1 class="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-4">ALEX B.</h1>
-        <p class="text-lg md:text-2xl text-gray-200 max-w-xl font-light">
-          Capturing the stark contrast of urban environments and architectural forms.
-        </p>
-      </div>
-    </section>
-
     <!-- Fluid Gallery Grid -->
     <section class="p-4 md:p-8 lg:p-12">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {SLOTS.filter(s => s.layout === 'grid').map(slot => {
-          const photo = slotted[slot.id];
-          return (
-            <div class={`relative group overflow-hidden bg-neutral-800 ${slot.aspectClass} ${slot.gridClass}`}>
-              {photo && (
-                <>
-                  <Image
-                    src={photo.data.image}
-                    alt={photo.data.title || 'Photography work by Alex B.'}
-                    class="h-full w-full object-cover transition-transform duration-500"
-                    width={slot.width}
-                    height={slot.height}
-                  />
-                  <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span class="text-white text-sm font-medium tracking-widest uppercase">{photo.data.title}</span>
-                  </div>
-                </>
-              )}
-            </div>
-          );
-        })}
+      <div class="grid grid-cols-2 gap-4">
+        {
+          SLOTS.filter((s) => s.layout === "grid").map((slot) => {
+            const photo = slotted[slot.id];
+            return (
+              <div
+                class={`relative group overflow-hidden bg-neutral-100 ${slot.aspectClass} ${slot.gridClass} cursor-pointer gallery-item`}
+              >
+                {photo && (
+                  <>
+                    <Image
+                      src={photo.data.image}
+                      alt={photo.data.title || "Photography work by Alex B."}
+                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      width={slot.width}
+                      height={slot.height}
+                    />
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span class="text-white text-sm font-medium tracking-widest uppercase">
+                        {photo.data.title}
+                      </span>
+                    </div>
+                  </>
+                )}
+              </div>
+            );
+          })
+        }
       </div>
     </section>
   </div>
+
+  <!-- Lightbox Modal -->
+  <div
+    id="lightbox"
+    class="fixed top-0 bottom-0 left-40 right-20 md:left-[512px] md:right-64 z-50 hidden bg-white flex items-center justify-center p-4 md:p-12 cursor-zoom-out transition-opacity duration-300 opacity-0"
+  >
+    <div class="relative w-full h-full flex items-center justify-center">
+      <img
+        id="lightbox-image"
+        src=""
+        alt=""
+        class="max-w-full max-h-full object-contain shadow-2xl transition-transform duration-300 scale-95"
+      />
+    </div>
+  </div>
+
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const img = item.querySelector('img');
+        if (img && lightboxImage) {
+          lightboxImage.src = img.src;
+          lightboxImage.alt = img.alt;
+
+          lightbox.classList.remove('hidden');
+          // Use a timeout to trigger the opacity transition after removing 'hidden'
+          setTimeout(() => {
+            lightbox.classList.add('opacity-100');
+            lightboxImage.classList.remove('scale-95');
+            lightboxImage.classList.add('scale-100');
+          }, 10);
+        }
+      });
+    });
+
+    lightbox.addEventListener('click', () => {
+      if (lightbox && lightboxImage) {
+        lightbox.classList.remove('opacity-100');
+        lightboxImage.classList.remove('scale-100');
+        lightboxImage.classList.add('scale-95');
+
+        setTimeout(() => {
+          lightbox.classList.add('hidden');
+        }, 300);
+      }
+    });
+  </script>
 </Layout>

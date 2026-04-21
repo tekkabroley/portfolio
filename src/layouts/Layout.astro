@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
 ---
 
 <!DOCTYPE html>
@@ -9,26 +11,41 @@ import '../styles/global.css';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{Astro.props.title || 'Portfolio'}</title>
   </head>
-  <body class="bg-black text-white selection:bg-white selection:text-black antialiased">
-    <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto">
-      <div class="flex gap-6 text-sm font-medium text-gray-400">
-        <a href="/blog" class="hover:text-white transition-colors">Blog</a>
-        <a href="/about" class="hover:text-white transition-colors">About</a>
-        <a href="/contact" class="hover:text-white transition-colors">Contact</a>
+  <body class="bg-white text-black selection:bg-black selection:text-white antialiased">
+    <div class="flex min-h-screen">
+      <aside class="w-40 md:w-[512px] bg-white text-black flex flex-col p-6 shrink-0">
+        <div class="mb-12">
+          <a href="/" class="block">
+            <Image src={logo} alt="Alex B. Logo" class="w-full h-auto" />
+          </a>
+        </div>
+        <nav class="flex flex-col gap-10 text-4xl font-bold tracking-tighter text-black font-sans">
+          <a href="/collections" class="transition-colors hover:text-gray-600">Collections</a>
+          <a href="/about" class="transition-colors hover:text-gray-600">About</a>
+          <a href="/contact" class="transition-colors hover:text-gray-600">Contact</a>
+          <a href="/gear" class="transition-colors hover:text-gray-600">My Gear</a>
+        </nav>
+        <div class="mt-8">
+          <a href="https://instagram.com/your-handle" target="_blank" rel="noopener noreferrer" class="text-black hover:text-gray-600 transition-colors inline-block">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.01 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.8" x2="17.8" y1="2" y2="4"></line>
+              <line x1="16.2" x2="16.2" y1="2" y2="4"></line>
+              <line x1="7" x2="7" y1="2" y2="4"></line>
+              <line x1="5.4" x2="5.4" y1="2" y2="4"></line>
+            </svg>
+          </a>
+        </div>
+      </aside>
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <main class="min-h-screen">
+          <slot />
+        </main>
       </div>
-      <a href="https://instagram.com/your-handle" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-          <path d="M16 11.37A4 4 0 1 1 12.01 8 4 4 0 0 1 16 11.37z"></path>
-          <line x1="17.8" x2="17.8" y1="2" y2="4"></line>
-          <line x1="16.2" x2="16.2" y1="2" y2="4"></line>
-          <line x1="7" x2="7" y1="2" y2="4"></line>
-          <line x1="5.4" x2="5.4" y1="2" y2="4"></line>
-        </svg>
-      </a>
-    </nav>
-    <main class="min-h-screen">
-      <slot />
-    </main>
+      <aside class="w-20 md:w-64 bg-white text-black flex flex-col p-6 shrink-0">
+        <!-- Right Sidebar Content -->
+      </aside>
+    </div>
   </body>
 </html>
