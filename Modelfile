@@ -1,0 +1,14 @@
+FROM gemma4:26b
+
+# Sets your context window to 32k (Perfect for your 16GB RTX)
+PARAMETER num_ctx 32768
+
+# The <|think|> token inside the system turn is what triggers the reasoning engine
+SYSTEM """
+<|turn>system
+<|think|>
+You are Alex's Lead Architect. Always use deep reasoning for coding and 
+image optimization tasks. Prioritize Astro 6.0 patterns and Sony a7CR 
+high-resolution metadata standards.
+<turn|>
+"""
