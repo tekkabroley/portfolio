@@ -36,13 +36,13 @@ const slotted = matchPhotosToSlots(allGallery);
   <div class="flex flex-col gap-0">
     <!-- Fluid Gallery Grid -->
     <section class="p-4 md:p-8 lg:p-12">
-      <div class="grid grid-cols-2 gap-4">
+      <div class="columns-1 md:columns-2 gap-2">
         {
           SLOTS.filter((s) => s.layout === "grid").map((slot) => {
             const photo = slotted[slot.id];
             return (
               <div
-                class={`relative group overflow-hidden bg-neutral-100 ${slot.aspectClass} ${slot.gridClass} cursor-pointer gallery-item`}
+                class={`relative group overflow-hidden bg-neutral-100 ${slot.aspectClass} mb-2 break-inside-avoid cursor-pointer gallery-item`}
               >
                 {photo && (
                   <>
@@ -84,35 +84,35 @@ const slotted = matchPhotosToSlots(allGallery);
   </div>
 
   <script>
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightbox-image');
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightbox-image");
 
-    document.querySelectorAll('.gallery-item').forEach(item => {
-      item.addEventListener('click', () => {
-        const img = item.querySelector('img');
+    document.querySelectorAll(".gallery-item").forEach((item) => {
+      item.addEventListener("click", () => {
+        const img = item.querySelector("img");
         if (img && lightboxImage) {
           lightboxImage.src = img.src;
           lightboxImage.alt = img.alt;
 
-          lightbox.classList.remove('hidden');
+          lightbox.classList.remove("hidden");
           // Use a timeout to trigger the opacity transition after removing 'hidden'
           setTimeout(() => {
-            lightbox.classList.add('opacity-100');
-            lightboxImage.classList.remove('scale-95');
-            lightboxImage.classList.add('scale-100');
+            lightbox.classList.add("opacity-100");
+            lightboxImage.classList.remove("scale-95");
+            lightboxImage.classList.add("scale-100");
           }, 10);
         }
       });
     });
 
-    lightbox.addEventListener('click', () => {
+    lightbox.addEventListener("click", () => {
       if (lightbox && lightboxImage) {
-        lightbox.classList.remove('opacity-100');
-        lightboxImage.classList.remove('scale-100');
-        lightboxImage.classList.add('scale-95');
+        lightbox.classList.remove("opacity-100");
+        lightboxImage.classList.remove("scale-100");
+        lightboxImage.classList.add("scale-95");
 
         setTimeout(() => {
-          lightbox.classList.add('hidden');
+          lightbox.classList.add("hidden");
         }, 300);
       }
     });
