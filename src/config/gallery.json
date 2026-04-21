@@ -1,25 +1,7 @@
 {
   "slots": [
     {
-      "id": "hero",
-      "targetRatio": 1.7777777777777777,
-      "width": 1920,
-      "height": 1080,
-      "layout": "hero",
-      "imageSlug": "DSC02966"
-    },
-    {
-      "id": "featured",
-      "targetRatio": 0.8,
-      "width": 1200,
-      "height": 1500,
-      "layout": "grid",
-      "gridClass": "md:col-span-2 md:row-span-2",
-      "aspectClass": "aspect-[4/5]",
-      "imageSlug": "DSC01462-Enhanced-NR"
-    },
-    {
-      "id": "square1",
+      "id": "slot-1",
       "targetRatio": 1.5,
       "width": 1200,
       "height": 800,
@@ -29,7 +11,7 @@
       "imageSlug": "DSC02627"
     },
     {
-      "id": "square2",
+      "id": "slot-2",
       "targetRatio": 1.5,
       "width": 1200,
       "height": 800,
@@ -39,24 +21,78 @@
       "imageSlug": "DSC02629"
     },
     {
-      "id": "bottom1",
-      "targetRatio": 0.8,
-      "width": 1200,
-      "height": 1500,
-      "layout": "grid",
-      "gridClass": "md:col-span-1",
-      "aspectClass": "aspect-[4/5]",
-      "imageSlug": "DSC06374"
-    },
-    {
-      "id": "bottom2",
+      "id": "slot-3",
       "targetRatio": 1.5,
       "width": 1200,
       "height": 800,
       "layout": "grid",
-      "gridClass": "md:col-span-2",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC06374"
+    },
+    {
+      "id": "slot-4",
+      "targetRatio": 1.5,
+      "width": 1200,
+      "height": 800,
+      "layout": "grid",
+      "gridClass": "",
       "aspectClass": "aspect-[3/2]",
       "imageSlug": "DSC01630"
+    },
+    {
+      "id": "slot-5",
+      "targetRatio": 1.5,
+      "width": 1200,
+      "height": 800,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]"
+    },
+    {
+      "id": "slot-6",
+      "targetRatio": 1.5,
+      "width": 1200,
+      "height": 800,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]"
+    },
+    {
+      "id": "slot-7",
+      "targetRatio": 1.5,
+      "width": 1200,
+      "height": 800,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]"
+    },
+    {
+      "id": "slot-8",
+      "targetRatio": 1.5,
+      "width": 1200,
+      "height": 800,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]"
+    },
+    {
+      "id": "slot-9",
+      "targetRatio": 1.5,
+      "width": 1200,
+      "height": 800,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]"
+    },
+    {
+      "id": "slot-10",
+      "targetRatio": 1.5,
+      "width": 1200,
+      "height": 800,
+      "layout": "grid",
+      "gridClass": "",
+      "aspectClass": "aspect-[3/2]"
     }
   ]
 }
