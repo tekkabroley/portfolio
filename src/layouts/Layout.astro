@@ -11,22 +11,22 @@ import logo from '../assets/logo.png';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{Astro.props.title || 'Portfolio'}</title>
   </head>
-  <body class="bg-white text-black selection:bg-black selection:text-white antialiased">
+  <body class="bg-white text-neutral-900 selection:bg-neutral-900 selection:text-white antialiased">
     <div class="flex min-h-screen">
-      <aside class="w-40 md:w-[512px] bg-white text-black flex flex-col p-6 shrink-0 sticky top-0 h-screen">
+      <aside class="w-40 md:w-[512px] bg-white text-neutral-500 flex flex-col p-6 shrink-0 sticky top-0 h-screen border-r border-neutral-100">
         <div class="mb-12">
           <a href="/" class="block">
             <Image src={logo} alt="Alex B. Logo" class="w-full h-auto" />
           </a>
         </div>
         <nav class="flex flex-col gap-10 text-4xl font-bold tracking-tighter text-black font-baskerville">
-          <a href="/collections" class="transition-colors hover:text-gray-600">Collections</a>
-          <a href="/append" class="transition-colors hover:text-gray-600">About</a>
-          <a href="/contact" class="transition-colors hover:text-gray-600">Contact</a>
-          <a href="/gear" class="transition-colors hover:text-gray-600">My Gear</a>
+          <a href="/collections" class="transition-colors hover:text-neutral-900">Collections</a>
+          <a href="/append" class="transition-colors hover:text-neutral-900">About</a>
+          <a href="/contact" class="transition-colors hover:text-neutral-900">Contact</a>
+          <a href="/gear" class="transition-colors hover:text-neutral-900">My Gear</a>
         </nav>
         <div class="mt-8">
-          <a href="https://instagram.com/your-handle" target="_blank" rel="noopener noreferrer" class="text-black hover:text-gray-600 transition-colors inline-block">
+          <a href="https://instagram.com/your-handle" target="_blank" rel="noopener noreferrer" class="text-black hover:text-neutral-900 transition-colors inline-block">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
               <path d="M16 11.37A4 4 0 1 1 12.01 8 4 4 0 0 1 16 11.37z"></path>
@@ -43,7 +43,7 @@ import logo from '../assets/logo.png';
           <slot />
         </main>
       </div>
-      <aside class="w-20 md:w-64 bg-white text-black flex flex-col p-6 shrink-0 sticky top-0 h-screen">
+      <aside class="w-20 md:w-64 bg-white text-neutral-500 flex flex-col p-6 shrink-0 sticky top-0 h-screen border-l border-neutral-100">
         <!-- Right Sidebar Content -->
       </aside>
     </div>
