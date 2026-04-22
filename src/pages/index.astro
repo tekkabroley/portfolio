@@ -32,11 +32,11 @@ function matchPhotosToSlots(entries) {
 const slotted = matchPhotosToSlots(allGallery);
 ---
 
-<Layout title="Photography Portfolio">
+<Layout title="Alex Broley">
   <div class="flex flex-col gap-0">
     <!-- Fluid Gallery Grid -->
-    <section class="p-4 md:p-8 lg:p-12">
-      <div class="columns-1 md:columns-2 gap-2">
+    <section class="">
+      <div class="columns-1 md:columns-2 lg:columns-3 gap-2">
         {
           SLOTS.filter((s) => s.layout === "grid").map((slot) => {
             const photo = slotted[slot.id];
@@ -71,7 +71,7 @@ const slotted = matchPhotosToSlots(allGallery);
   <!-- Lightbox Modal -->
   <div
     id="lightbox"
-    class="fixed top-0 bottom-0 left-40 right-20 md:left-[512px] md:right-64 z-50 hidden bg-black/95 backdrop-blur-sm flex items-center justify-center p-2 md:p-8 cursor-zoom-out transition-opacity duration-300 opacity-0"
+    class="fixed top-0 bottom-0 left-32 right-16 md:left-[410px] md:right-[205px] z-50 hidden bg-white backdrop-blur-sm flex items-center justify-center p-2 md:p-8 cursor-zoom-out transition-opacity duration-300 opacity-0"
   >
     <div class="relative w-full h-full flex items-center justify-center">
       <img
