@@ -1,0 +1,23 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import dsc from "../assets/DSC07433.jpg";
+---
+
+<Layout title="About">
+  <div class="flex flex-col gap-0 pt-10">
+    <section class="flex flex-col items-start p-4">
+      <Image
+        src={dsc}
+        alt="About Image"
+        class="w-40 md:w-[410px] h-auto mb-6"
+      />
+      <h2 class="text-4xl font-baskerville">About Me</h2>
+      <p class="mt-4">
+        Steel lines meet the earth,<br />
+        Quiet tension in the frame,<br />
+        Nature finds its edge.
+      </p>
+    </section>
+  </div>
+</Layout>
