@@ -1,0 +1,119 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+// Import images
+import sonyA7CR from "../assets/sonyA7CR.webp";
+import sonyG24_50 from "../assets/sonyG24-50.webp";
+import sonyG40mm from "../assets/sonyG40mm.webp";
+import sonyGM24mm from "../assets/sonyGM24mm.webp";
+import sigma100_400 from "../assets/sigmaContemporary100-400.png";
+
+const gearItems = [
+  {
+    category: "Camera Body",
+    items: [
+      {
+        name: "Sony α7CR",
+        description: "Compact, high-resolution full-frame camera. 61MP sensor in a small form factor.",
+        image: sonyA7CR,
+      }
+    ]
+  },
+  {
+    category: "Lenses",
+    items: [
+      {
+        name: "Sony FE 24mm f/1.4 GM",
+        description: "My go-to for wide-angle shots and low light. Incredible sharpness and bokeh.",
+        image: sonyGM24mm,
+      },
+      {
+        name: "Sony FE 40mm f/2.5 G",
+        description: "Ultra-compact prime lens. Perfect for street photography and daily carry.",
+        image: sonyG40mm,
+      },
+      {
+        name: "Sony FE 24-50mm f/2.8 G",
+        description: "Versatile, compact standard zoom. Constant f/2.8 aperture in a portable size.",
+        image: sonyG24_50,
+      },
+      {
+        name: "Sigma 100-400mm f/5-6.3 DG DN OS | C",
+        description: "Telephoto zoom for wildlife and compressed landscape shots.",
+        image: sigma100_400,
+      }
+    ]
+  }
+];
+---
+
+<Layout title="My Gear">
+  <div class="flex flex-col gap-0 pt-10 px-6">
+    <header class="mb-20 mt-[1cm]">
+      <h1 class="text-8xl font-baskerville font-bold text-center mb-12 tracking-tighter">My Gear</h1>
+      <p class="text-neutral-500 max-w-2xl mx-auto text-center leading-relaxed text-lg">
+        A curated collection of the tools I use to capture moments. I prioritize 
+        compactness and image quality for my photography workflow.
+      </p>
+    </header>
+
+    <div class="max-w-5xl mx-auto space-y-32 pb-32">
+
+      {gearItems.map((section) => (
+        <section>
+          <h2 class="text-xs uppercase tracking-[0.2em] text-neutral-400 mb-12 font-medium">
+            {section.category}
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-20">
+            {section.items.map((item) => (
+              <div class="group">
+                <div class="aspect-[4/3] overflow-hidden bg-neutral-50 mb-6 flex items-center justify-center p-8">
+                  <Image 
+                    src={item.image} 
+                    alt={item.name} 
+                    class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <h3 class="text-2xl font-baskerville mb-2">{item.name}</h3>
+                <p class="text-neutral-600 text-sm leading-relaxed max-w-sm">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <footer class="mt-40 pt-10 border-t border-neutral-100">
+      <p class="text-neutral-400 text-xs italic">
+        All gear photos are original shots of my equipment.
+      </p>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  /* Subtle fade-in animation for gear items */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .group {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Stagger animation for items */
+  .group:nth-child(1) { animation-delay: 0.1s; }
+  .group:nth-child(2) { animation-delay: 0.2s; }
+  .group:nth-child(3) { animation-delay: 0.3s; }
+  .group:nth-child(4) { animation-delay: 0.4s; }
+</style>

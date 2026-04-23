@@ -106,7 +106,7 @@ const slotted = matchPhotosToSlots(allGallery);
       });
     });
 
-    lightbox.addEventListener("click", () => {
+    function closeLightbox() {
       if (lightbox && lightboxImage) {
         lightbox.classList.remove("opacity-100");
         lightboxImage.classList.remove("scale-100");
@@ -115,6 +115,14 @@ const slotted = matchPhotosToSlots(allGallery);
         setTimeout(() => {
           lightbox.classList.add("hidden");
         }, 300);
+      }
+    }
+
+    lightbox.addEventListener("click", closeLightbox);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && lightbox && !lightbox.classList.contains("hidden")) {
+        closeLightbox();
       }
     });
   </script>
