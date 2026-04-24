@@ -27,7 +27,17 @@ const gallery = defineCollection({
   }),
 });
 
+const family = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/family' }),
+  schema: z.object({
+    title: z.string().optional(),
+    image: z.string(),
+    date: z.union([z.date(), z.string()]).optional(),
+  }),
+});
+
 export const collections = {
   'projects': projects,
   'gallery': gallery,
+  'family': family,
 };

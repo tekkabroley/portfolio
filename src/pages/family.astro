@@ -1,0 +1,104 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+
+const familyPhotos = await getCollection("family");
+---
+
+<Layout title="Family Photos">
+  <div class="flex flex-col gap-0 pt-10">
+    <header class="mb-20 mt-[1cm]">
+      <h1 class="text-8xl font-baskerville font-bold text-center mb-12 tracking-tighter">Family</h1>
+      <p class="text-neutral-500 max-w-2xl mx-auto text-center leading-relaxed text-lg">
+        Personal moments, protected and private. 
+      </p>
+    </header>
+
+    {familyPhotos.length === 0 ? (
+      <div class="max-w-5xl mx-auto pb-32 w-full text-center">
+        <div class="p-20 bg-neutral-50 border border-neutral-100 text-neutral-400">
+          <p class="mb-4">You have successfully unlocked the family area!</p>
+          <p class="text-sm">You can start adding your family galleries and photos to <code>src/content/family/</code>.</p>
+        </div>
+      </div>
+    ) : (
+      <section class="px-2">
+        <div class="columns-1 md:columns-2 lg:columns-3 gap-2">
+          {familyPhotos.map((photo) => (
+            <div class="relative group overflow-hidden bg-neutral-100 mb-2 break-inside-avoid cursor-pointer gallery-item">
+              <img
+                src={photo.data.image}
+                alt={photo.data.title || "Family photo"}
+                class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span class="text-white text-sm font-medium tracking-widest uppercase">
+                  {photo.data.title || "View"}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div
+    id="lightbox"
+    class="fixed top-0 bottom-0 left-32 right-16 md:left-[410px] md:right-[205px] z-50 hidden bg-white backdrop-blur-sm flex items-center justify-center py-2 md:py-8 cursor-zoom-out transition-opacity duration-300 opacity-0"
+  >
+    <div class="relative w-full h-full flex items-center justify-center">
+      <img
+        id="lightbox-image"
+        src=""
+        alt=""
+        class="max-w-full max-h-full object-contain shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-transform duration-300 scale-95"
+      />
+    </div>
+  </div>
+
+  <script>
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightbox-image");
+
+    document.querySelectorAll(".gallery-item").forEach((item) => {
+      item.addEventListener("click", () => {
+        const img = item.querySelector("img");
+        if (img && lightboxImage) {
+          lightboxImage.src = img.src;
+          lightboxImage.alt = img.alt;
+
+          lightbox.classList.remove("hidden");
+          setTimeout(() => {
+            lightbox.classList.add("opacity-100");
+            lightboxImage.classList.remove("scale-95");
+            lightboxImage.classList.add("scale-100");
+          }, 10);
+        }
+      });
+    });
+
+    function closeLightbox() {
+      if (lightbox && lightboxImage) {
+        lightbox.classList.remove("opacity-100");
+        lightboxImage.classList.remove("scale-100");
+        lightboxImage.classList.add("scale-95");
+
+        setTimeout(() => {
+          lightbox.classList.add("hidden");
+        }, 300);
+      }
+    }
+
+    lightbox.addEventListener("click", closeLightbox);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && lightbox && !lightbox.classList.contains("hidden")) {
+        closeLightbox();
+      }
+    });
+  </script>
+</Layout>
