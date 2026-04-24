@@ -4,6 +4,22 @@ import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 
 const familyPhotos = await getCollection("family");
+
+const getImageUrl = (imageStr) => {
+  try {
+    const url = new URL(imageStr);
+    if (url.protocol === 's3:') {
+      return `/api/family-image?path=${url.pathname.substring(1)}`;
+    }
+    if (url.hostname.includes('amazonaws.com')) {
+      return `/api/family-image?path=${url.pathname.substring(1)}`;
+    }
+  } catch (e) {
+    // Fallback if it's already a path like 'family/DSC00355.JPG'
+    return `/api/family-image?path=${imageStr}`;
+  }
+  return imageStr;
+};
 ---
 
 <Layout title="Family Photos">
@@ -28,7 +44,7 @@ const familyPhotos = await getCollection("family");
           {familyPhotos.map((photo) => (
             <div class="relative group overflow-hidden bg-neutral-100 mb-2 break-inside-avoid cursor-pointer gallery-item">
               <img
-                src={photo.data.image}
+                src={getImageUrl(photo.data.image)}
                 alt={photo.data.title || "Family photo"}
                 class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
