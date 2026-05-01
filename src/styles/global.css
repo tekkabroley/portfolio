@@ -8,10 +8,28 @@
   color-scheme: light;
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   background-color: #ffffff;
   color: #171717;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+.fluid-title {
+  font-size: clamp(2.5rem, 15vw, 8rem);
+  line-height: 1;
+}
+
+.fluid-nav {
+  font-size: clamp(1.25rem, 5vw, 2.5rem);
 }
 
 /*
