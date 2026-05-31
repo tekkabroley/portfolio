@@ -1,0 +1,109 @@
+---
+import { Image } from "astro:assets";
+import type { GalleryEntry, GallerySlot } from "../lib/gallery";
+
+interface Props {
+  title: string;
+  slots: GallerySlot[];
+  slotted: Record<string, GalleryEntry>;
+}
+
+const { title, slots, slotted } = Astro.props;
+---
+
+<div class="flex flex-col gap-0 pt-10 px-4 md:px-0">
+  <h1
+    class="fluid-title font-baskerville font-bold text-center mb-6 mt-[1cm] tracking-tighter"
+  >
+    {title}
+  </h1>
+  <section class="max-w-[1600px] mx-auto w-full">
+    <div class="columns-1 md:columns-2 lg:columns-3 gap-4">
+      {
+        slots
+          .filter((s) => s.layout === "grid")
+          .map((slot) => {
+            const photo = slotted[slot.id];
+            return (
+              <div
+                class={`relative group overflow-hidden bg-neutral-100 ${slot.aspectClass} mb-4 break-inside-avoid cursor-pointer gallery-item`}
+              >
+                {photo && (
+                  <>
+                    <Image
+                      src={photo.data.image}
+                      alt={photo.data.title || "Photography work by Alex B."}
+                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      width={slot.width}
+                      height={slot.height}
+                    />
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span class="text-white text-sm font-medium tracking-widest uppercase">
+                        {photo.data.title}
+                      </span>
+                    </div>
+                  </>
+                )}
+              </div>
+            );
+          })
+      }
+    </div>
+  </section>
+</div>
+
+<div
+  id="lightbox"
+  class="fixed top-0 bottom-0 left-0 right-0 md:left-[410px] md:right-[205px] z-50 hidden bg-white/95 backdrop-blur-sm flex items-center justify-center py-4 md:py-8 cursor-zoom-out transition-opacity duration-300 opacity-0"
+>
+  <div class="relative w-full h-full flex items-center justify-center p-4">
+    <img
+      id="lightbox-image"
+      src=""
+      alt=""
+      class="max-w-full max-h-full object-contain shadow-2xl transition-transform duration-300 scale-95"
+    />
+  </div>
+</div>
+
+<script>
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImage = document.getElementById("lightbox-image");
+
+  document.querySelectorAll(".gallery-item").forEach((item) => {
+    item.addEventListener("click", () => {
+      const img = item.querySelector("img");
+      if (img && lightboxImage) {
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt;
+
+        lightbox.classList.remove("hidden");
+        setTimeout(() => {
+          lightbox.classList.add("opacity-100");
+          lightboxImage.classList.remove("scale-95");
+          lightboxImage.classList.add("scale-100");
+        }, 10);
+      }
+    });
+  });
+
+  function closeLightbox() {
+    if (lightbox && lightboxImage) {
+      lightbox.classList.remove("opacity-100");
+      lightboxImage.classList.remove("scale-100");
+      lightboxImage.classList.add("scale-95");
+
+      setTimeout(() => {
+        lightbox.classList.add("hidden");
+      }, 300);
+    }
+  }
+
+  lightbox?.addEventListener("click", closeLightbox);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && lightbox && !lightbox.classList.contains("hidden")) {
+      closeLightbox();
+    }
+  });
+</script>
