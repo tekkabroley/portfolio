@@ -2,13 +2,25 @@
 import Layout from "../layouts/Layout.astro";
 import CollectionGallery from "../components/CollectionGallery.astro";
 import { getCollection } from "astro:content";
-import { COLLECTIONS, DEFAULT_COLLECTION } from "../lib/collections";
+import { COLLECTIONS } from "../lib/collections";
 import { matchPhotosToSlots } from "../lib/gallery";
 
-const { title, slots } = COLLECTIONS[DEFAULT_COLLECTION];
+export function getStaticPaths() {
+  return Object.keys(COLLECTIONS).map((collection) => ({
+    params: { collection },
+  }));
+}
+
+const { collection } = Astro.params;
+
+if (!collection || !(collection in COLLECTIONS)) {
+  return Astro.redirect("/");
+}
+
+const { title, slots } = COLLECTIONS[collection];
 const allGallery = await getCollection("gallery");
 const galleryEntries = allGallery.filter(
-  (photo) => photo.data.collection?.toLowerCase() === DEFAULT_COLLECTION,
+  (photo) => photo.data.collection?.toLowerCase() === collection,
 );
 const slotted = matchPhotosToSlots(galleryEntries, slots);
 ---
