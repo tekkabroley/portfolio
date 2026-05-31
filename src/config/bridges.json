@@ -1,0 +1,94 @@
+{
+  "slots": [
+    {
+      "id": "slot-1",
+      "targetRatio": 1.5,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC00036"
+    },
+    {
+      "id": "slot-2",
+      "targetRatio": 1.4999186065440338,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC00037"
+    },
+    {
+      "id": "slot-3",
+      "targetRatio": 0.75,
+      "width": 1200,
+      "height": 1800,
+      "layout": "grid",
+      "gridClass": "row-span-3",
+      "aspectClass": "aspect-[2/3]",
+      "imageSlug": "DSC01462"
+    },
+    {
+      "id": "slot-4",
+      "targetRatio": 0.6666666666666666,
+      "width": 1200,
+      "height": 1800,
+      "layout": "grid",
+      "gridClass": "row-span-3",
+      "aspectClass": "aspect-[2/3]",
+      "imageSlug": "DSC01922"
+    },
+    {
+      "id": "slot-5",
+      "targetRatio": 0.6666666666666666,
+      "width": 1200,
+      "height": 1800,
+      "layout": "grid",
+      "gridClass": "row-span-3",
+      "aspectClass": "aspect-[2/3]",
+      "imageSlug": "DSC01930"
+    },
+    {
+      "id": "slot-6",
+      "targetRatio": 1.7777777777777777,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02282"
+    },
+    {
+      "id": "slot-7",
+      "targetRatio": 1.4999161214561316,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02571"
+    },
+    {
+      "id": "slot-8",
+      "targetRatio": 1.5,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02578"
+    },
+    {
+      "id": "slot-9",
+      "targetRatio": 0.6666666666666666,
+      "width": 1200,
+      "height": 1800,
+      "layout": "grid",
+      "gridClass": "row-span-3",
+      "aspectClass": "aspect-[2/3]",
+      "imageSlug": "DSC03549"
+    }
+  ]
+}

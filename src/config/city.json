@@ -1,0 +1,14 @@
+{
+  "slots": [
+    {
+      "id": "slot-1",
+      "targetRatio": 1.7777777777777777,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02650"
+    }
+  ]
+}

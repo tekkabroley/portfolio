@@ -1,0 +1,144 @@
+{
+  "slots": [
+    {
+      "id": "slot-1",
+      "targetRatio": 0.6666666666666666,
+      "width": 1200,
+      "height": 1800,
+      "layout": "grid",
+      "gridClass": "row-span-3",
+      "aspectClass": "aspect-[2/3]",
+      "imageSlug": "DSC01356"
+    },
+    {
+      "id": "slot-2",
+      "targetRatio": 1.5,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC01626"
+    },
+    {
+      "id": "slot-3",
+      "targetRatio": 1.7777777777777777,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC01630"
+    },
+    {
+      "id": "slot-4",
+      "targetRatio": 0.6666666666666666,
+      "width": 1200,
+      "height": 1800,
+      "layout": "grid",
+      "gridClass": "row-span-3",
+      "aspectClass": "aspect-[2/3]",
+      "imageSlug": "DSC01633"
+    },
+    {
+      "id": "slot-5",
+      "targetRatio": 1.7777777777777777,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02627"
+    },
+    {
+      "id": "slot-6",
+      "targetRatio": 0.6666666666666666,
+      "width": 1200,
+      "height": 1800,
+      "layout": "grid",
+      "gridClass": "row-span-3",
+      "aspectClass": "aspect-[2/3]",
+      "imageSlug": "DSC02796"
+    },
+    {
+      "id": "slot-7",
+      "targetRatio": 1.7777777777777777,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02966"
+    },
+    {
+      "id": "slot-8",
+      "targetRatio": 1.4999155548049317,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC02983"
+    },
+    {
+      "id": "slot-9",
+      "targetRatio": 1.5,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC03026"
+    },
+    {
+      "id": "slot-10",
+      "targetRatio": 0.6666666666666666,
+      "width": 1200,
+      "height": 1800,
+      "layout": "grid",
+      "gridClass": "row-span-3",
+      "aspectClass": "aspect-[2/3]",
+      "imageSlug": "DSC04787"
+    },
+    {
+      "id": "slot-11",
+      "targetRatio": 1.7778844307928585,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC05362"
+    },
+    {
+      "id": "slot-12",
+      "targetRatio": 1.7780114148392911,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC06109"
+    },
+    {
+      "id": "slot-13",
+      "targetRatio": 1.5,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC06297"
+    },
+    {
+      "id": "slot-14",
+      "targetRatio": 1.5,
+      "width": 1800,
+      "height": 1200,
+      "layout": "grid",
+      "gridClass": "row-span-2",
+      "aspectClass": "aspect-[3/2]",
+      "imageSlug": "DSC08606"
+    }
+  ]
+}
