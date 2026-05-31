@@ -2,6 +2,9 @@
 import "../styles/global.css";
 import { Image } from "astro:assets";
 import logo from "../assets/logo.png";
+import { COLLECTIONS } from "../lib/collections";
+
+const sidebarCollections = ["birds", "bridges", "tunnels"] as const;
 ---
 
 <!doctype html>
@@ -26,10 +29,16 @@ import logo from "../assets/logo.png";
         <nav
           class="fluid-nav flex flex-col gap-6 md:gap-10 font-bold tracking-tighter text-black font-baskerville"
         >
-          <!-- <a
-            href="/collections"
-            class="transition-colors hover:text-neutral-900">Collections</a
-          > -->
+          {
+            sidebarCollections.map((slug) => (
+              <a
+                href={`/${slug}`}
+                class="transition-colors hover:text-neutral-900"
+              >
+                {COLLECTIONS[slug].title}
+              </a>
+            ))
+          }
           <a href="/about" class="transition-colors hover:text-neutral-900"
             >About</a
           >
