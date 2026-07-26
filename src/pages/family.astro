@@ -1,62 +1,35 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getCollection } from "astro:content";
-import { Image } from "astro:assets";
-
-const familyPhotos = await getCollection("family");
-
-const getImageUrl = (imageStr) => {
-  try {
-    const url = new URL(imageStr);
-    if (url.protocol === 's3:') {
-      return `/api/family-image?path=${url.pathname.substring(1)}`;
-    }
-    if (url.hostname.includes('amazonaws.com')) {
-      return `/api/family-image?path=${url.pathname.substring(1)}`;
-    }
-  } catch (e) {
-    // Fallback if it's already a path like 'family/DSC00355.JPG'
-    return `/api/family-image?path=${imageStr}`;
-  }
-  return imageStr;
-};
 ---
 
 <Layout title="Family Photos">
   <div class="flex flex-col gap-0 pt-10 px-4 md:px-0">
     <header class="mb-20 mt-[1cm]">
-      <h1 class="fluid-title font-baskerville font-bold text-center mb-12 tracking-tighter">Family</h1>
-      <p class="text-neutral-500 max-w-2xl mx-auto text-center leading-relaxed text-lg px-4 md:px-0">
-        Personal moments, protected and private. 
+      <h1
+        class="fluid-title font-baskerville font-bold text-center mb-12 tracking-tighter"
+      >
+        Family
+      </h1>
+      <p
+        class="text-neutral-500 max-w-2xl mx-auto text-center leading-relaxed text-lg px-4 md:px-0"
+      >
+        Personal moments, protected and private.
       </p>
     </header>
 
-    {familyPhotos.length === 0 ? (
-      <div class="max-w-5xl mx-auto pb-32 w-full text-center px-4">
-        <div class="p-20 bg-neutral-50 border border-neutral-100 text-neutral-400">
-          <p class="mb-4">You have successfully unlocked the family area!</p>
-          <p class="text-sm">You can start adding your family galleries and photos to <code>src/content/family/</code>.</p>
-        </div>
+    <div id="family-status" class="max-w-5xl mx-auto pb-8 w-full text-center px-4">
+      <p class="text-neutral-400 text-sm">Loading family photos…</p>
+    </div>
+
+    <section id="family-gallery" class="px-2 hidden">
+      <div
+        id="family-grid"
+        class="columns-1 md:columns-2 lg:columns-3 gap-2"
+      >
       </div>
-    ) : (
-      <section class="px-2">
-        <div class="columns-1 md:columns-2 lg:columns-3 gap-2">
-          {familyPhotos.map((photo) => (
-            <div class="relative group overflow-hidden bg-neutral-100 mb-2 break-inside-avoid cursor-pointer gallery-item">
-              <img
-                src={getImageUrl(photo.data.image)}
-                alt={photo.data.title || "Family photo"}
-                class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-              />
-            </div>
-          ))}
-        </div>
-      </section>
-    )}
+    </section>
   </div>
 
-  <!-- Lightbox Modal -->
   <div
     id="lightbox"
     class="fixed top-0 bottom-0 left-0 right-0 md:left-[410px] md:right-[205px] z-50 hidden bg-white/95 backdrop-blur-sm flex items-center justify-center py-4 md:py-8 cursor-zoom-out transition-opacity duration-300 opacity-0"
@@ -72,25 +45,30 @@ const getImageUrl = (imageStr) => {
   </div>
 
   <script>
+    const statusEl = document.getElementById("family-status");
+    const galleryEl = document.getElementById("family-gallery");
+    const gridEl = document.getElementById("family-grid");
     const lightbox = document.getElementById("lightbox");
     const lightboxImage = document.getElementById("lightbox-image");
 
-    document.querySelectorAll(".gallery-item").forEach((item) => {
-      item.addEventListener("click", () => {
-        const img = item.querySelector("img");
-        if (img && lightboxImage) {
-          lightboxImage.src = img.src;
-          lightboxImage.alt = img.alt;
+    function bindLightbox(root) {
+      root.querySelectorAll(".gallery-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          const img = item.querySelector("img");
+          if (img && lightboxImage && lightbox) {
+            lightboxImage.src = img.src;
+            lightboxImage.alt = img.alt;
 
-          lightbox.classList.remove("hidden");
-          setTimeout(() => {
-            lightbox.classList.add("opacity-100");
-            lightboxImage.classList.remove("scale-95");
-            lightboxImage.classList.add("scale-100");
-          }, 10);
-        }
+            lightbox.classList.remove("hidden");
+            setTimeout(() => {
+              lightbox.classList.add("opacity-100");
+              lightboxImage.classList.remove("scale-95");
+              lightboxImage.classList.add("scale-100");
+            }, 10);
+          }
+        });
       });
-    });
+    }
 
     function closeLightbox() {
       if (lightbox && lightboxImage) {
@@ -104,12 +82,83 @@ const getImageUrl = (imageStr) => {
       }
     }
 
-    lightbox.addEventListener("click", closeLightbox);
+    lightbox?.addEventListener("click", closeLightbox);
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && lightbox && !lightbox.classList.contains("hidden")) {
+      if (
+        e.key === "Escape" &&
+        lightbox &&
+        !lightbox.classList.contains("hidden")
+      ) {
         closeLightbox();
       }
     });
+
+    function showStatusMessage(html) {
+      if (!statusEl) return;
+      statusEl.classList.remove("hidden");
+      statusEl.innerHTML = html;
+    }
+
+    async function loadFamilyPhotos() {
+      try {
+        const response = await fetch("/api/family-photos", {
+          credentials: "same-origin",
+        });
+
+        if (response.status === 401 || response.status === 403) {
+          window.location.href = "/family-login";
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Failed to load photos (${response.status})`);
+        }
+
+        const data = await response.json();
+        const photos = Array.isArray(data.photos) ? data.photos : [];
+
+        if (!gridEl || !galleryEl || !statusEl) return;
+
+        if (photos.length === 0) {
+          showStatusMessage(`
+            <div class="p-20 bg-neutral-50 border border-neutral-100 text-neutral-400">
+              <p class="mb-4">You have successfully unlocked the family area!</p>
+              <p class="text-sm">You can start adding your family galleries and photos to <code>src/content/family/</code>.</p>
+            </div>
+          `);
+          return;
+        }
+
+        gridEl.replaceChildren();
+        for (const photo of photos) {
+          const item = document.createElement("div");
+          item.className =
+            "relative group overflow-hidden bg-neutral-100 mb-2 break-inside-avoid cursor-pointer gallery-item";
+
+          const img = document.createElement("img");
+          img.src = photo.src;
+          img.alt = photo.alt || "Family photo";
+          img.loading = "lazy";
+          img.className =
+            "w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105";
+
+          item.appendChild(img);
+          gridEl.appendChild(item);
+        }
+
+        statusEl.classList.add("hidden");
+        galleryEl.classList.remove("hidden");
+        bindLightbox(gridEl);
+      } catch {
+        showStatusMessage(`
+          <div class="p-8 bg-neutral-50 border border-neutral-100 text-neutral-500">
+            <p>Unable to load family photos. Please try again.</p>
+          </div>
+        `);
+      }
+    }
+
+    loadFamilyPhotos();
   </script>
 </Layout>
