@@ -4,12 +4,11 @@ A photography portfolio for [Alex Broley](https://portfolio-7ix.pages.dev/), bui
 
 ## Features
 
-- **Collection galleries** — Curated photo grids for Sellwood, Birds, Bridges, and Tunnels, each driven by a layout config in `src/config/`
+- **Collection galleries** — Curated photo grids for Portland and Monochromes, each driven by a layout config in `src/config/`
 - **Content collections** — Gallery and family photos are managed as typed Markdown frontmatter with Zod validation
 - **Image optimization** — Astro serves remote S3 images with automatic compression and modern formats (WebP/AVIF)
 - **Minimal client JavaScript** — Gallery lightbox is the primary client-side interaction; everything else is static HTML
 - **Private family gallery** — PIN-protected section with Cloudflare Functions serving images from a private S3 bucket
-- **Contact form** — Serverless handler via Resend
 
 ## Tech Stack
 
@@ -40,7 +39,7 @@ The dev server runs at [http://localhost:4321](http://localhost:4321).
 
 ```text
 /
-├── functions/              # Cloudflare Pages Functions (contact, family auth, S3 proxy)
+├── functions/              # Cloudflare Pages Functions (family auth, S3 proxy)
 ├── public/                 # Static assets
 ├── scripts/                # Build and maintenance scripts
 ├── src/
@@ -66,7 +65,7 @@ The dev server runs at [http://localhost:4321](http://localhost:4321).
    date: 2025:09:30 17:47:34
    image: https://example.s3.amazonaws.com/gallery/DSC01633.jpg
    location: Portland, OR
-   collection: Sellwood
+   collection: Portland
    width: 6336
    height: 9504
    ---
@@ -78,11 +77,11 @@ The dev server runs at [http://localhost:4321](http://localhost:4321).
    node scripts/generate-collection-configs.mjs
    ```
 
-   This reads each gallery entry's `collection` field and appends a slot to the matching config file in `src/config/` (e.g. `sellwood.json`). Existing configs and slots are preserved; only new photos are added.
+   This reads each gallery entry's `collection` field and appends a slot to the matching config file in `src/config/` (e.g. `portland.json`). Existing configs and slots are preserved; only new photos are added.
 
 3. If the collection is new, register it in `src/lib/collections.ts` so a page is generated at `/{collection}`.
 
-The home page (`/`) defaults to the Sellwood collection.
+The home page (`/`) defaults to the Portland collection.
 
 ## Deployment
 
@@ -90,7 +89,6 @@ The site is deployed to Cloudflare Pages. Serverless functions in `functions/` r
 
 | Variable | Used by |
 | --- | --- |
-| `RESEND_API_KEY` | Contact form |
 | `FAMILY_PIN` | Family gallery login |
 | `AWS_ACCESS_KEY_ID` | Private family image proxy |
 | `AWS_SECRET_ACCESS_KEY` | Private family image proxy |
