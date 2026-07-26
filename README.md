@@ -31,8 +31,9 @@ The dev server runs at [http://localhost:4321](http://localhost:4321).
 | Command | Description |
 | --- | --- |
 | `npm run dev` | Start the local development server |
-| `npm run build` | Build the production site to `dist/` |
-| `npm run preview` | Preview the production build locally |
+| `npm run build` | Generate family allowlist data, then build to `dist/` |
+| `npm run generate:family` | Sync `functions/_data/family-photos.js` from `src/content/family/` |
+| `npm run preview` | Preview the production build locally (static only; family APIs need Pages Functions) |
 | `npm run astro check` | Run Astro type and content checks |
 
 ## Project Structure
@@ -40,6 +41,10 @@ The dev server runs at [http://localhost:4321](http://localhost:4321).
 ```text
 /
 ├── functions/              # Cloudflare Pages Functions (family auth, S3 proxy)
+│   ├── _lib/               # Shared session + path helpers
+│   ├── _data/              # Generated family allowlist / photo list
+│   ├── api/                # PIN login, photo list, image proxy
+│   └── family/             # Auth middleware for /family
 ├── public/                 # Static assets
 ├── scripts/                # Build and maintenance scripts
 ├── src/
@@ -83,6 +88,14 @@ The dev server runs at [http://localhost:4321](http://localhost:4321).
 
 The home page (`/`) defaults to the Portland collection.
 
+## Adding Family Photos
+
+1. Add a Markdown file to `src/content/family/` with an `image` URL under the private S3 prefix `family/`.
+2. Run `npm run generate:family` (also runs automatically during `npm run build`) to refresh the allowlist and photo list used by Cloudflare Functions.
+3. Deploy. Family photo paths are not embedded in static HTML; the `/family` page loads them from `/api/family-photos` after PIN login.
+
+Family auth and image APIs run only on Cloudflare Pages Functions. Plain `astro preview` / `astro dev` will not serve `/api/*` or the family middleware — use a Pages preview deploy (or `wrangler pages dev`) to exercise the private gallery locally.
+
 ## Deployment
 
 The site is deployed to Cloudflare Pages. Serverless functions in `functions/` require the following environment variables:
@@ -90,10 +103,13 @@ The site is deployed to Cloudflare Pages. Serverless functions in `functions/` r
 | Variable | Used by |
 | --- | --- |
 | `FAMILY_PIN` | Family gallery login |
+| `SESSION_SECRET` | HMAC-signed family session cookie (long random string) |
 | `AWS_ACCESS_KEY_ID` | Private family image proxy |
 | `AWS_SECRET_ACCESS_KEY` | Private family image proxy |
 | `AWS_REGION` | Private family image proxy |
 | `PRIVATE_S3_BUCKET` | Private family image proxy |
+
+Generate `SESSION_SECRET` with something like `openssl rand -hex 32` and set it as a Cloudflare Pages secret. Without it, PIN login fails closed.
 
 ## License
 
