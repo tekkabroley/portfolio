@@ -1,7 +1,5 @@
-import birdsConfig from "../config/birds.json";
-import bridgesConfig from "../config/bridges.json";
-import sellwoodConfig from "../config/sellwood.json";
-import tunnelsConfig from "../config/tunnels.json";
+import monochromesConfig from "../config/monochromes.json";
+import portlandConfig from "../config/portland.json";
 import type { GallerySlot } from "./gallery";
 
 export type CollectionConfig = {
@@ -10,10 +8,8 @@ export type CollectionConfig = {
 };
 
 export const COLLECTIONS: Record<string, CollectionConfig> = {
-  sellwood: { title: "Sellwood", slots: sellwoodConfig.slots },
-  birds: { title: "Birds", slots: birdsConfig.slots },
-  bridges: { title: "Bridges", slots: bridgesConfig.slots },
-  tunnels: { title: "Tunnels", slots: tunnelsConfig.slots },
+  portland: { title: "Portland", slots: portlandConfig.slots },
+  monochromes: { title: "Monochromes", slots: monochromesConfig.slots },
 };
 
-export const DEFAULT_COLLECTION = "sellwood";
+export const DEFAULT_COLLECTION = "portland";
