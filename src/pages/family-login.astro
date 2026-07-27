@@ -18,10 +18,17 @@ const error = Astro.url.searchParams.get('error');
           Incorrect PIN. Please try again.
         </div>
       )}
-      
+
       {error === 'config' && (
         <div class="bg-red-50 text-red-600 text-sm p-4 mb-6 text-center border border-red-100">
-          System error: Access code not configured on the server.
+          System error: <code class="font-mono text-xs">FAMILY_PIN</code> is not configured on the server.
+        </div>
+      )}
+
+      {error === 'session' && (
+        <div class="bg-red-50 text-red-600 text-sm p-4 mb-6 text-center border border-red-100">
+          System error: <code class="font-mono text-xs">SESSION_SECRET</code> is not configured on the server.
+          Add it as a Cloudflare Pages secret, then try again.
         </div>
       )}
 

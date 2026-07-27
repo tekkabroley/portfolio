@@ -112,7 +112,7 @@ import Layout from "../layouts/Layout.astro";
         }
 
         if (!response.ok) {
-          throw new Error(`Failed to load photos (${response.status})`);
+          throw new Error(`HTTP ${response.status}`);
         }
 
         const data = await response.json();
@@ -150,10 +150,16 @@ import Layout from "../layouts/Layout.astro";
         statusEl.classList.add("hidden");
         galleryEl.classList.remove("hidden");
         bindLightbox(gridEl);
-      } catch {
+      } catch (err) {
+        const detail =
+          err instanceof TypeError
+            ? "The family photo API is not reachable. Use a Cloudflare Pages deploy (or <code>wrangler pages dev</code>), not plain <code>astro dev</code> / <code>astro preview</code>."
+            : "Something went wrong while loading photos. Confirm <code>SESSION_SECRET</code> and family env vars are set, then sign in again.";
+
         showStatusMessage(`
-          <div class="p-8 bg-neutral-50 border border-neutral-100 text-neutral-500">
-            <p>Unable to load family photos. Please try again.</p>
+          <div class="p-8 bg-neutral-50 border border-neutral-100 text-neutral-500 text-left max-w-xl mx-auto">
+            <p class="mb-3">Unable to load family photos.</p>
+            <p class="text-sm leading-relaxed">${detail}</p>
           </div>
         `);
       }

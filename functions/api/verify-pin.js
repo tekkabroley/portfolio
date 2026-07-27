@@ -12,11 +12,14 @@ export async function onRequestPost(context) {
     const validPin = env.FAMILY_PIN;
     const origin = new URL(request.url).origin;
 
-    if (!validPin || !env.SESSION_SECRET) {
-      console.error(
-        "CRITICAL: FAMILY_PIN and/or SESSION_SECRET environment variable is not set!",
-      );
+    if (!validPin) {
+      console.error("CRITICAL: FAMILY_PIN environment variable is not set!");
       return Response.redirect(`${origin}/family-login?error=config`, 302);
+    }
+
+    if (!env.SESSION_SECRET) {
+      console.error("CRITICAL: SESSION_SECRET environment variable is not set!");
+      return Response.redirect(`${origin}/family-login?error=session`, 302);
     }
 
     if (pin === validPin) {
