@@ -1,34 +1,28 @@
-import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
+import registeredCollections from "./lib/registered-collections.json";
 
-const projects = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    technologies: z.array(z.string()),
-    link: z.string().url(),
-    github: z.string().url().optional(),
-    image: z.string(),
-  }),
-});
+const registeredTitles = Object.values(registeredCollections) as [
+  string,
+  ...string[],
+];
 
 const gallery = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/gallery' }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/gallery" }),
   schema: z.object({
     title: z.string().optional(),
     category: z.string().optional(),
     image: z.string(),
     date: z.union([z.date(), z.string()]),
     location: z.string().optional(),
-    collection: z.string().optional(),
+    collection: z.enum(registeredTitles),
     width: z.number().optional(),
     height: z.number().optional(),
   }),
 });
 
 const family = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/family' }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/family" }),
   schema: z.object({
     title: z.string().optional(),
     image: z.string(),
@@ -37,7 +31,6 @@ const family = defineCollection({
 });
 
 export const collections = {
-  'projects': projects,
-  'gallery': gallery,
-  'family': family,
+  gallery,
+  family,
 };

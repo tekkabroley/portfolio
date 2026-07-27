@@ -22,28 +22,25 @@ const { title, slots, slotted } = Astro.props;
       {
         slots
           .filter((s) => s.layout === "grid")
+          .filter((s) => slotted[s.id])
           .map((slot) => {
             const photo = slotted[slot.id];
             return (
               <div
                 class={`relative group overflow-hidden bg-neutral-100 ${slot.aspectClass} mb-4 break-inside-avoid cursor-pointer gallery-item`}
               >
-                {photo && (
-                  <>
-                    <Image
-                      src={photo.data.image}
-                      alt={photo.data.title || "Photography work by Alex B."}
-                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      width={slot.width}
-                      height={slot.height}
-                    />
-                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <span class="text-white text-sm font-medium tracking-widest uppercase">
-                        {photo.data.title}
-                      </span>
-                    </div>
-                  </>
-                )}
+                <Image
+                  src={photo.data.image}
+                  alt={photo.data.title || "Photography work by Alex B."}
+                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  width={slot.width}
+                  height={slot.height}
+                />
+                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <span class="text-white text-sm font-medium tracking-widest uppercase">
+                    {photo.data.title}
+                  </span>
+                </div>
               </div>
             );
           })

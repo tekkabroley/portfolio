@@ -7,8 +7,9 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/generate-family-data.mjs && astro build",
+    "build": "node scripts/generate-family-data.mjs && node scripts/validate-gallery-configs.mjs && astro build",
     "generate:family": "node scripts/generate-family-data.mjs",
+    "validate:gallery": "node scripts/validate-gallery-configs.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

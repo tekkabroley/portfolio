@@ -7,6 +7,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const GALLERY_DIR = path.join(ROOT, "src/content/gallery");
 const CONFIG_DIR = path.join(ROOT, "src/config");
+const REGISTERED_PATH = path.join(
+  ROOT,
+  "src/lib/registered-collections.json",
+);
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
@@ -88,6 +92,15 @@ function writeConfig(configPath, config) {
   fs.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`, "utf8");
 }
 
+const registered = JSON.parse(fs.readFileSync(REGISTERED_PATH, "utf8"));
+const registeredSlugs = new Set(Object.keys(registered));
+const registeredTitles = new Map(
+  Object.entries(registered).map(([slug, title]) => [
+    String(title).toLowerCase(),
+    slug,
+  ]),
+);
+
 const mdFiles = fs
   .readdirSync(GALLERY_DIR)
   .filter((file) => file.endsWith(".md"))
@@ -109,7 +122,16 @@ for (const file of mdFiles) {
     continue;
   }
 
-  const configFilename = collectionToConfigFilename(collection);
+  const slug = registeredTitles.get(collection.toLowerCase());
+  if (!slug || !registeredSlugs.has(slug)) {
+    console.warn(
+      `Skipping ${file}: collection "${collection}" is not registered in src/lib/registered-collections.json.`,
+    );
+    skipped++;
+    continue;
+  }
+
+  const configFilename = collectionToConfigFilename(slug);
   const configPath = path.join(CONFIG_DIR, configFilename);
   const configExisted = fs.existsSync(configPath);
   const config = loadOrCreateConfig(configPath);
@@ -130,7 +152,8 @@ for (const file of mdFiles) {
   }
 
   const width = typeof frontmatter.width === "number" ? frontmatter.width : 1800;
-  const height = typeof frontmatter.height === "number" ? frontmatter.height : 1200;
+  const height =
+    typeof frontmatter.height === "number" ? frontmatter.height : 1200;
   const slot = createSlot(nextSlotId(config.slots), width, height, imageSlug);
 
   config.slots.push(slot);
