@@ -2,9 +2,9 @@
 import "../styles/global.css";
 import { Image } from "astro:assets";
 import logo from "../assets/logo.png";
-import { COLLECTIONS } from "../lib/collections";
+import { COLLECTIONS, SIDEBAR_COLLECTIONS } from "../lib/collections";
 
-const sidebarCollections = ["portland", "monochromes"] as const;
+const sidebarCollections = SIDEBAR_COLLECTIONS;
 ---
 
 <!doctype html>

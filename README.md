@@ -4,7 +4,7 @@ A photography portfolio for [Alex Broley](https://portfolio-7ix.pages.dev/), bui
 
 ## Features
 
-- **Collection galleries** — Curated photo grids for Portland and Monochromes, each driven by a layout config in `src/config/`
+- **Collection galleries** — Curated photo grids (currently Portland) driven by layout configs in `src/config/`
 - **Content collections** — Gallery and family photos are managed as typed Markdown frontmatter with Zod validation
 - **Image optimization** — Astro serves remote S3 images with automatic compression and modern formats (WebP/AVIF)
 - **Minimal client JavaScript** — Gallery lightbox is the primary client-side interaction; everything else is static HTML
@@ -31,8 +31,9 @@ The dev server runs at [http://localhost:4321](http://localhost:4321).
 | Command | Description |
 | --- | --- |
 | `npm run dev` | Start the local development server |
-| `npm run build` | Generate family allowlist data, then build to `dist/` |
+| `npm run build` | Generate family data, validate gallery configs, then build to `dist/` |
 | `npm run generate:family` | Sync `functions/_data/family-photos.js` from `src/content/family/` |
+| `npm run validate:gallery` | Fail if registered collection configs and gallery markdown drift apart |
 | `npm run preview` | Preview the production build locally (static only; family APIs need Pages Functions) |
 | `npm run astro check` | Run Astro type and content checks |
 
@@ -82,11 +83,18 @@ The dev server runs at [http://localhost:4321](http://localhost:4321).
    node scripts/generate-collection-configs.mjs
    ```
 
-   This reads each gallery entry's `collection` field and appends a slot to the matching config file in `src/config/` (e.g. `portland.json`). Existing configs and slots are preserved; only new photos are added.
+   This only updates collections listed in `src/lib/registered-collections.json`. Existing configs and slots are preserved; only new photos are added.
 
-3. If the collection is new, register it in `src/lib/collections.ts` so a page is generated at `/{collection}`.
+3. If the collection is new:
+   - Add its slug/title to `src/lib/registered-collections.json`
+   - Import its layout config in `src/lib/collections.ts`
+   - Ensure gallery markdown uses that collection title
 
-The home page (`/`) defaults to the Portland collection.
+4. Run `npm run validate:gallery` (also part of `npm run build`) to confirm config slots and markdown stay in sync.
+
+Empty registered collections are omitted from the sidebar until they have slots. The home page (`/`) defaults to Portland.
+
+To bring back Monochromes later: add gallery entries with `collection: Monochromes`, register `monochromes` in `registered-collections.json`, add `src/config/monochromes.json`, import it in `collections.ts`, then run the config generator.
 
 ## Adding Family Photos
 
